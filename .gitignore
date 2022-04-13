@@ -2,4 +2,4 @@
 .gradle
 .idea
 index.html
-properties.yml
+application.yml
