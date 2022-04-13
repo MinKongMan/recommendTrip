@@ -1,5 +1,6 @@
 package com.example.recommendtrip.service.kakao;
 
+import com.example.recommendtrip.domain.Address;
 import com.example.recommendtrip.service.kakao.dto.addressLocalRequest;
 import com.example.recommendtrip.service.kakao.dto.addressLocalResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,18 +24,18 @@ public class kakaoClient{
                 .build()
                 .encode()
                 .toUri();
-        System.out.print(uri);
         var httpHeaders = new HttpHeaders();
 
         httpHeaders.set("Authorization",key);
 
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);;
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         var httpEntity = new HttpEntity<>(httpHeaders);
 
         var resType = new ParameterizedTypeReference<addressLocalResponse>(){};
 
         var ResponseEntity = new RestTemplate().exchange(uri, HttpMethod.GET, httpEntity, resType);
+
 
         return ResponseEntity.getBody();
     }
