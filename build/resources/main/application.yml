@@ -1,0 +1,6 @@
+kakao:
+  url:
+    local: https://dapi.kakao.com/v2/local/search/address.json
+
+  client:
+    key: KakaoAK e393149a026a134c7a9570d2f74d020f
