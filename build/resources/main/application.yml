@@ -4,3 +4,9 @@ kakao:
 
   client:
     key: KakaoAK e393149a026a134c7a9570d2f74d020f
+
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true

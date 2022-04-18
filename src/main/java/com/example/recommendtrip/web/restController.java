@@ -4,19 +4,14 @@ import com.example.recommendtrip.domain.Address;
 import com.example.recommendtrip.service.kakao.dto.addressLocalResponse;
 import com.example.recommendtrip.service.service;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class restController {
-    @GetMapping("/api/v1/get")
-    public String go(){
-        return "ㅗㅑ";
-    }
+
     private final service service;
     @GetMapping("/api/v1")
     public addressLocalResponse find(@RequestParam String query){
@@ -27,4 +22,12 @@ public class restController {
     public List<Address> find_all(){
         return service.find_all();
     }
+
+    @DeleteMapping("/api/v1/{id}")
+    public Long delete(@PathVariable Long id){
+        service.delete(id);
+        return id;
+    }
+
+
 }

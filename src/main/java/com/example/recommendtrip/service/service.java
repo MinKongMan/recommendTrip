@@ -56,6 +56,15 @@ public class service {
         List<Address> list = addressInterface.findAll();
         if(list.size()==0) return null;
         else return list;
+    }
 
+    @Transactional
+    public void delete(Long id){
+        System.out.println(id);
+        Address item = addressInterface.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않습니다.")
+        );
+        addressInterface.delete(item);
+        System.out.println(id);
     }
 }
