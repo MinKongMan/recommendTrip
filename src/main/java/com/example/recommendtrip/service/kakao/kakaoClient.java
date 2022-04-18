@@ -36,7 +36,6 @@ public class kakaoClient{
 
         var ResponseEntity = new RestTemplate().exchange(uri, HttpMethod.GET, httpEntity, resType);
 
-
         return ResponseEntity.getBody();
     }
 }

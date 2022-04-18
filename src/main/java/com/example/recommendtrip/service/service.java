@@ -27,6 +27,17 @@ public class service {
         addressLocalResponse.item_address items;
         if(res.getDocuments().size()<1) return addressLocalResponse.builder().documents(null).build();
 
+        List<Address> list = find_all();
+        if(list!=null) {
+            for (Address temp : list) {
+                if (temp.getX().equals(res.getDocuments().get(0).getX()) &&
+                        temp.getY().equals(res.getDocuments().get(0).getY())) {
+                    System.out.println("같은 장소가 있습니다.");
+                    return addressLocalResponse.builder().documents(null).build();
+                }
+            }
+        }
+
         items = res.getDocuments().get(0);
         address = Address.builder()
                 .address_name(items.getAddress_name())
