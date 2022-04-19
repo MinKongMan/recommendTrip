@@ -4,6 +4,7 @@ import com.example.recommendtrip.domain.Address;
 import com.example.recommendtrip.domain.AddressInterface;
 import com.example.recommendtrip.service.kakao.dto.addressLocalRequest;
 import com.example.recommendtrip.service.kakao.dto.addressLocalResponse;
+import com.example.recommendtrip.service.kakao.findDistance;
 import com.example.recommendtrip.service.kakao.kakaoClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class service {
 
     private final kakaoClient kakaoClient;
     private final AddressInterface addressInterface;
+    private final findDistance findDistance;
 
     @Transactional
     public addressLocalResponse searchLocal(String query){
@@ -66,5 +68,9 @@ public class service {
         );
         addressInterface.delete(item);
         System.out.println(id);
+    }
+
+    public int duration(List<Address> list){
+        return findDistance.find(list);
     }
 }

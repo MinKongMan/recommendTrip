@@ -29,5 +29,10 @@ public class restController {
         return id;
     }
 
+    @GetMapping("/api/v1/findDistance")
+    public int findDistance(){
+        return service.duration(find_all());
+    }
+
 
 }
