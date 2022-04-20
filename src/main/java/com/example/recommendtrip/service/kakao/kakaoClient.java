@@ -65,7 +65,7 @@ public class kakaoClient{
         var resType = new ParameterizedTypeReference<distanceResponse>(){};
 
         var ResponseEntity = new RestTemplate().exchange(uri, HttpMethod.GET, httpEntity, resType);
-        System.out.println(ResponseEntity);
+
         return ResponseEntity.getBody();
     }
 }
