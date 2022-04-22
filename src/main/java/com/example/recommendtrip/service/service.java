@@ -4,6 +4,8 @@ import com.example.recommendtrip.domain.Address;
 import com.example.recommendtrip.domain.AddressInterface;
 import com.example.recommendtrip.service.kakao.dto.addressLocalRequest;
 import com.example.recommendtrip.service.kakao.dto.addressLocalResponse;
+import com.example.recommendtrip.service.kakao.dto.keywordLocalRequest;
+import com.example.recommendtrip.service.kakao.dto.keywordLocalResponse;
 import com.example.recommendtrip.service.kakao.findDistance;
 import com.example.recommendtrip.service.kakao.kakaoClient;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +24,11 @@ public class service {
 
     @Transactional
     public addressLocalResponse searchLocal(String query){
-        addressLocalRequest request = new addressLocalRequest();
-        request.setQuery(query);
-        addressLocalResponse res = kakaoClient.localRes(request);
+
+        addressLocalResponse res = kakaoClient.localRes(addressLocalRequest.builder().query(query).build());
         Address address;
         addressLocalResponse.item_address items;
+
         if(res.getDocuments().size()<1) return addressLocalResponse.builder().documents(null).build();
 
         List<Address> list = find_all();
@@ -72,5 +74,19 @@ public class service {
 
     public int duration(List<Address> list){
         return findDistance.find(list);
+    }
+
+    @Transactional
+    public keywordLocalResponse findPlace(String query){
+        keywordLocalResponse keywordLocalResponse = kakaoClient.keyRes(keywordLocalRequest.builder().query(query).build());
+        if(keywordLocalResponse==null || keywordLocalResponse.getDocuments().size()<1) return null;
+        var node = keywordLocalResponse.getDocuments().get(0);
+        Address address = Address.builder().x(node.getX())
+                .y(node.getY())
+                .address_name(node.getAddress_name())
+                .build();
+
+        addressInterface.save(address);
+        return keywordLocalResponse;
     }
 }

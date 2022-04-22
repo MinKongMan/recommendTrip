@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Map;
 
-@NoArgsConstructor
 @Getter
 public class distanceResponse {
     private List<item> routes;

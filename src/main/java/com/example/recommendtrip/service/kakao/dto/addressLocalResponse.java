@@ -7,7 +7,6 @@ import org.h2.util.json.JSONObject;
 import java.util.List;
 import java.util.Map;
 
-@NoArgsConstructor
 @Getter
 public class addressLocalResponse {
 

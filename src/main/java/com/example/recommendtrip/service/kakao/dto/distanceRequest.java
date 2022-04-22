@@ -18,4 +18,5 @@ public class distanceRequest {
         map.add("priority",priority);
         return map;
     }
+
 }

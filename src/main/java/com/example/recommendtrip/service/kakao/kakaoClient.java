@@ -1,10 +1,7 @@
 package com.example.recommendtrip.service.kakao;
 
 import com.example.recommendtrip.domain.Address;
-import com.example.recommendtrip.service.kakao.dto.addressLocalRequest;
-import com.example.recommendtrip.service.kakao.dto.addressLocalResponse;
-import com.example.recommendtrip.service.kakao.dto.distanceRequest;
-import com.example.recommendtrip.service.kakao.dto.distanceResponse;
+import com.example.recommendtrip.service.kakao.dto.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
@@ -23,6 +20,9 @@ public class kakaoClient{
 
     @Value("${kakao.url.distance}")
     private String kakaoDistance;
+
+    @Value("${kakao.url.keyword}")
+    private String kakaoKeyword;
 
     public addressLocalResponse localRes(addressLocalRequest query){
         var uri = UriComponentsBuilder.fromUriString(kakaoLocal)
@@ -51,8 +51,8 @@ public class kakaoClient{
                 address_end.getX()+","+address_end.getY());
         var uri = UriComponentsBuilder.fromUriString(kakaoDistance)
                 .queryParams(map)
-                .encode()
                 .build()
+                .encode()
                 .toUri();
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -67,5 +67,24 @@ public class kakaoClient{
         var ResponseEntity = new RestTemplate().exchange(uri, HttpMethod.GET, httpEntity, resType);
 
         return ResponseEntity.getBody();
+    }
+
+    public keywordLocalResponse keyRes(keywordLocalRequest request){
+        var uri = UriComponentsBuilder.fromUriString(kakaoKeyword)
+                .queryParams(request.toMap())
+                .build()
+                .encode()
+                .toUri();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Authorization",key);
+
+        var httpEntity = new HttpEntity<>(httpHeaders);
+
+        var resType = new ParameterizedTypeReference<keywordLocalResponse>(){};
+
+        var rseponseEntity = new RestTemplate().exchange(uri, HttpMethod.GET, httpEntity, resType);
+
+        return rseponseEntity.getBody();
     }
 }

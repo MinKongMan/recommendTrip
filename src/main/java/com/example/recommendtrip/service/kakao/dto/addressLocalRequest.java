@@ -4,14 +4,15 @@ import lombok.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
+@Getter
 public class addressLocalRequest {
 
     private String query;
-
-
+    @Builder
+    addressLocalRequest(String query){
+        this.query = query;
+    }
 
     public MultiValueMap<String,String> toMultiValueMap(){
         var map = new LinkedMultiValueMap<String, String>();
