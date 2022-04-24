@@ -2,10 +2,7 @@ package com.example.recommendtrip.service;
 
 import com.example.recommendtrip.domain.Address;
 import com.example.recommendtrip.domain.AddressInterface;
-import com.example.recommendtrip.service.kakao.dto.addressLocalRequest;
-import com.example.recommendtrip.service.kakao.dto.addressLocalResponse;
-import com.example.recommendtrip.service.kakao.dto.keywordLocalRequest;
-import com.example.recommendtrip.service.kakao.dto.keywordLocalResponse;
+import com.example.recommendtrip.service.kakao.dto.*;
 import com.example.recommendtrip.service.kakao.findDistance;
 import com.example.recommendtrip.service.kakao.kakaoClient;
 import lombok.RequiredArgsConstructor;
@@ -72,7 +69,7 @@ public class service {
         System.out.println(id);
     }
 
-    public int duration(List<Address> list){
+    public List<priorityQueue> duration(List<Address> list){
         return findDistance.find(list);
     }
 

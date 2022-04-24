@@ -3,6 +3,7 @@ package com.example.recommendtrip.web;
 import com.example.recommendtrip.domain.Address;
 import com.example.recommendtrip.service.kakao.dto.addressLocalResponse;
 import com.example.recommendtrip.service.kakao.dto.keywordLocalResponse;
+import com.example.recommendtrip.service.kakao.dto.priorityQueue;
 import com.example.recommendtrip.service.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class restController {
     }
 
     @GetMapping("/api/v1/findDistance")
-    public int findDistance(){
+    public List<priorityQueue> findDistance(){
         return service.duration(find_all());
     }
 
