@@ -20,7 +20,7 @@ public class findDistance {
     boolean[] marked;
     private final kakaoClient kakaoClient;
     PriorityQueue<priorityQueue> pq = new PriorityQueue<>();
-    List<priorityQueue> pq_list;
+    LinkedList<priorityQueue> pq_list = new LinkedList<>();
     public List<priorityQueue> find(List<Address> list){
         size = list.size();
         array = new int[size+1][size+1];
@@ -51,7 +51,6 @@ public class findDistance {
             for(int i = 1; i<=3; i++){
                 temp_list.add(list.get(destination[i]-1));
             }
-
             pq.add(new priorityQueue(val,temp_list));
             int k = pq.size();
             for(int i = 1; i<=k; i++){

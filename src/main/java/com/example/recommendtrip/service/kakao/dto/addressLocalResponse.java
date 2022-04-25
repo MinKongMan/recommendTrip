@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
+@NoArgsConstructor
 public class addressLocalResponse {
 
     private List<item_address> documents;

@@ -39,9 +39,11 @@ public class kakaoClient{
         var httpEntity = new HttpEntity<>(httpHeaders);
 
         var resType = new ParameterizedTypeReference<addressLocalResponse>(){};
-
+        System.out.println(resType);
+        System.out.println(uri+" / "+query);
+        System.out.println(httpEntity);
         var ResponseEntity = new RestTemplate().exchange(uri, HttpMethod.GET, httpEntity, resType);
-
+        System.out.println(ResponseEntity);
         return ResponseEntity.getBody();
     }
 
