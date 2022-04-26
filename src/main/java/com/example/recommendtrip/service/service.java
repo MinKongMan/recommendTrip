@@ -20,7 +20,7 @@ public class service {
     private final findDistance findDistance;
 
     @Transactional
-    public addressLocalResponse searchLocal(String query){
+    public addressLocalResponse searchLocal(String query, int val){
 
         addressLocalResponse res = kakaoClient.localRes(addressLocalRequest.builder().query(query).build());
         Address address;
@@ -39,12 +39,32 @@ public class service {
             }
         }
 
+
         items = res.getDocuments().get(0);
         address = Address.builder()
                 .address_name(items.getAddress_name())
                 .x(items.getX())
                 .y(items.getY())
                 .build();
+
+        if(val==1){
+            address = Address.builder()
+                    .address_name(items.getAddress_name())
+                    .x(items.getX())
+                    .y(items.getY())
+                    .start_x(items.getX())
+                    .start_y(items.getY())
+                    .build();
+        }
+        else if(val==2){
+            address = Address.builder()
+                    .address_name(items.getAddress_name())
+                    .x(items.getX())
+                    .y(items.getY())
+                    .end_x(items.getX())
+                    .end_y(items.getY())
+                    .build();
+        }
 
         addressInterface.save(address);
 

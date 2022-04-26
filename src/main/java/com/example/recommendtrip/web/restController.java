@@ -17,7 +17,17 @@ public class restController {
     private final service service;
     @GetMapping("/api/v1/address")
     public addressLocalResponse find(@RequestParam String query){
-        return service.searchLocal(query);
+        return service.searchLocal(query, 0);
+    }
+
+    @GetMapping("/api/v1/start")
+    public addressLocalResponse find_start(@RequestParam String query){
+        return service.searchLocal(query, 1);
+    }
+
+    @GetMapping("/api/v1/end")
+    public addressLocalResponse find_end(@RequestParam String query){
+        return service.searchLocal(query, 2);
     }
 
     @GetMapping("/api/v1/find")
