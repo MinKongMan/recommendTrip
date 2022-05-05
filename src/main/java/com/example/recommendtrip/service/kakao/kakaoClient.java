@@ -2,13 +2,18 @@ package com.example.recommendtrip.service.kakao;
 
 import com.example.recommendtrip.domain.Address;
 import com.example.recommendtrip.service.kakao.dto.*;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.*;
+import reactor.core.publisher.Mono;
 
 @Component
 public class kakaoClient{
@@ -23,6 +28,9 @@ public class kakaoClient{
 
     @Value("${kakao.url.keyword}")
     private String kakaoKeyword;
+
+    @Autowired
+    WebClient.Builder webClient;
 
     public addressLocalResponse localRes(addressLocalRequest query){
         var uri = UriComponentsBuilder.fromUriString(kakaoLocal)
@@ -44,7 +52,26 @@ public class kakaoClient{
         System.out.println(httpEntity);
         var ResponseEntity = new RestTemplate().exchange(uri, HttpMethod.GET, httpEntity, resType);
         System.out.println(ResponseEntity);
-        return ResponseEntity.getBody();
+
+        webClient.baseUrl("https://dapi.kakao.com");
+        Mono<addressLocalResponse> response = webClient.build().get().uri(asd ->asd.path("/v2/local/search/address.json")
+                        .queryParams(query.toMultiValueMap())
+                        .build()
+                        )
+                .header("Authorization",key)
+                .exchangeToMono(abc ->{
+                    return abc.bodyToMono(addressLocalResponse.class);
+                });
+//        Mono<addressLocalResponse> response = webClient.build().get().uri(asd ->asd.path("/v2/local/search/address.json")
+//                        .queryParams(query.toMultiValueMap())
+//                        .build()
+//                )
+//                .header("Authorization",key)
+//                .retrieve()
+//                .bodyToMono(addressLocalResponse.class);
+        System.out.println(response);
+
+        return response.block();
     }
 
     public distanceResponse disRes(Address address_start, Address address_end){
