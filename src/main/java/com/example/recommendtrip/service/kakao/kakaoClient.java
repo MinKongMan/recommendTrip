@@ -62,13 +62,7 @@ public class kakaoClient{
                 .exchangeToMono(abc ->{
                     return abc.bodyToMono(addressLocalResponse.class);
                 });
-//        Mono<addressLocalResponse> response = webClient.build().get().uri(asd ->asd.path("/v2/local/search/address.json")
-//                        .queryParams(query.toMultiValueMap())
-//                        .build()
-//                )
-//                .header("Authorization",key)
-//                .retrieve()
-//                .bodyToMono(addressLocalResponse.class);
+
         System.out.println(response);
 
         return response.block();
