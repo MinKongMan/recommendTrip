@@ -20,6 +20,6 @@ public class priorityQueue implements Comparable<priorityQueue>{
     }
     @Override
     public int compareTo(priorityQueue o) {
-        return this.distance-o.distance;
+        return o.distance-this.distance;
     }
 }

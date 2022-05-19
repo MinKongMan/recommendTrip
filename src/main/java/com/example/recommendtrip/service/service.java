@@ -5,10 +5,12 @@ import com.example.recommendtrip.domain.AddressInterface;
 import com.example.recommendtrip.service.kakao.dto.*;
 import com.example.recommendtrip.service.kakao.findDistance;
 import com.example.recommendtrip.service.kakao.kakaoClient;
+import com.example.recommendtrip.web.restController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,9 +20,9 @@ public class service {
     private final kakaoClient kakaoClient;
     private final AddressInterface addressInterface;
     private final findDistance findDistance;
-
+    restController controller;
     @Transactional
-    public addressLocalResponse searchLocal(String query, int val){
+    public addressLocalResponse searchLocal(String query, int val) {
 
         addressLocalResponse res = kakaoClient.localRes(addressLocalRequest.builder().query(query).build());
         Address address;
@@ -48,22 +50,7 @@ public class service {
                 .build();
 
         if(val==1){
-            address = Address.builder()
-                    .address_name(items.getAddress_name())
-                    .x(items.getX())
-                    .y(items.getY())
-                    .start_x(items.getX())
-                    .start_y(items.getY())
-                    .build();
-        }
-        else if(val==2){
-            address = Address.builder()
-                    .address_name(items.getAddress_name())
-                    .x(items.getX())
-                    .y(items.getY())
-                    .end_x(items.getX())
-                    .end_y(items.getY())
-                    .build();
+            return res;
         }
 
         addressInterface.save(address);
@@ -73,8 +60,9 @@ public class service {
                 .build();
     }
 
-    public List<Address> find_all(){
+    public List<Address> find_all() throws NullPointerException{
         List<Address> list = addressInterface.findAll();
+
         if(list.size()==0) return null;
         else return list;
     }
@@ -106,4 +94,5 @@ public class service {
         addressInterface.save(address);
         return keywordLocalResponse;
     }
+
 }

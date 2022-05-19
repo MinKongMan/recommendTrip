@@ -3,6 +3,7 @@ package com.example.recommendtrip.service.kakao;
 import com.example.recommendtrip.domain.Address;
 import com.example.recommendtrip.service.kakao.dto.distanceResponse;
 import com.example.recommendtrip.service.kakao.dto.priorityQueue;
+import com.example.recommendtrip.web.restController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ public class findDistance {
     int[] destination;
     boolean[] marked;
     private final kakaoClient kakaoClient;
+    restController rest;
     PriorityQueue<priorityQueue> pq = new PriorityQueue<>();
     LinkedList<priorityQueue> pq_list = new LinkedList<>();
     public List<priorityQueue> find(List<Address> list){
@@ -26,6 +28,8 @@ public class findDistance {
         array = new int[size+1][size+1];
         marked = new boolean[size+1];
         destination = new int[4];
+        System.out.println(size);
+
         for(int i = 1; i<=size; i++){
             for(int j = i+1; j<=size; j++){
                 distanceResponse time = kakaoClient.disRes(list.get(i-1), list.get(j-1));
@@ -52,9 +56,9 @@ public class findDistance {
                 temp_list.add(list.get(destination[i]-1));
             }
             pq.add(new priorityQueue(val,temp_list));
-            int k = pq.size();
-            for(int i = 1; i<=k; i++){
-                if(i>3) pq.poll();
+
+            while(pq.size()>3){
+                pq.poll();
             }
             return;
         }

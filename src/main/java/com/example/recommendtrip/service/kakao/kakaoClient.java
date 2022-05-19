@@ -47,11 +47,8 @@ public class kakaoClient{
         var httpEntity = new HttpEntity<>(httpHeaders);
 
         var resType = new ParameterizedTypeReference<addressLocalResponse>(){};
-        System.out.println(resType);
-        System.out.println(uri+" / "+query);
-        System.out.println(httpEntity);
+
         var ResponseEntity = new RestTemplate().exchange(uri, HttpMethod.GET, httpEntity, resType);
-        System.out.println(ResponseEntity);
 
         webClient.baseUrl("https://dapi.kakao.com");
         Mono<addressLocalResponse> response = webClient.build().get().uri(asd ->asd.path("/v2/local/search/address.json")
@@ -62,8 +59,6 @@ public class kakaoClient{
                 .exchangeToMono(abc ->{
                     return abc.bodyToMono(addressLocalResponse.class);
                 });
-
-        System.out.println(response);
 
         return response.block();
     }

@@ -8,30 +8,34 @@ import com.example.recommendtrip.service.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class restController {
-
+    public addressLocalResponse start = addressLocalResponse.builder().build();
+    public addressLocalResponse end = null;
     private final service service;
     @GetMapping("/api/v1/address")
-    public addressLocalResponse find(@RequestParam String query){
+    public addressLocalResponse find(@RequestParam String query) {
         return service.searchLocal(query, 0);
     }
 
     @GetMapping("/api/v1/start")
-    public addressLocalResponse find_start(@RequestParam String query){
-        return service.searchLocal(query, 1);
+    public addressLocalResponse find_start(@RequestParam String query) {
+        start = service.searchLocal(query,1);
+        return start;
     }
 
     @GetMapping("/api/v1/end")
-    public addressLocalResponse find_end(@RequestParam String query){
-        return service.searchLocal(query, 2);
+    public addressLocalResponse find_end(@RequestParam String query) {
+        end = service.searchLocal(query,1);
+        return end;
     }
 
     @GetMapping("/api/v1/find")
-    public List<Address> find_all(){
+    public List<Address> find_all() {
         return service.find_all();
     }
 
@@ -42,7 +46,7 @@ public class restController {
     }
 
     @GetMapping("/api/v1/findDistance")
-    public List<priorityQueue> findDistance(){
+    public List<priorityQueue> findDistance() {
         return service.duration(find_all());
     }
 
@@ -50,6 +54,5 @@ public class restController {
     public keywordLocalResponse find_keyword(String query){
         return service.findPlace(query);
     }
-
 
 }
