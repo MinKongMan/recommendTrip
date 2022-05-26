@@ -20,11 +20,13 @@ public class service {
     private final kakaoClient kakaoClient;
     private final AddressInterface addressInterface;
     private final findDistance findDistance;
-    restController controller;
+    private boolean check = false;
     @Transactional
     public addressLocalResponse searchLocal(String query, int val) {
-
+        if(check) return null; // 이 부분에 작업처리 중이니 기다리라는 문구 출력하면 됨
+        check = true;
         addressLocalResponse res = kakaoClient.localRes(addressLocalRequest.builder().query(query).build());
+
         Address address;
         addressLocalResponse.item_address items;
 
@@ -53,8 +55,9 @@ public class service {
             return res;
         }
 
-        addressInterface.save(address);
 
+        addressInterface.save(address);
+        check = false;
         return addressLocalResponse.builder()
                 .documents(res.getDocuments())
                 .build();
